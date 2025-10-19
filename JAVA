@@ -1,0 +1,633 @@
+package com.example.ioscalculatorboth;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    double num1 = 0, num2 = 0;
+    boolean isAddition = false;
+    boolean isSubtraction=false;
+    boolean isMultiplication = false;
+    boolean isDivision = false;
+    StringBuilder input = new StringBuilder();
+    TextView display, editText;
+    Button bt0, bt1, bt2, bt3, bt4, bt5, bt6, bt7, bt8, bt9;
+    Button Addbt, subtractionbt, Multiplybt, dividebt, btE, btDecimal;
+    Button btClear, btPercent, btDelete;
+    Button sinbt, cosbt,tanbt, sinhbt,coshbt,tanhbt;
+    Button factbt, randbt, radbt, pibt, ebt, eebt;
+    boolean isRadians = true;
+    Button mcbt, mrbt, mpbt, mmbt;
+    double memory = 0.0;
+    boolean isSecond = false;
+    Button secondbt;
+    Button x2bt, x3bt, xYbt;
+    boolean isPower = false;
+
+    Button log10bt, exbt, tenXbt;
+
+Button lnbt,recipbt,sqrt2bt,sqrt3bt,ysqrtbt;
+
+    Button btOpenParen;
+    Button btCloseParen;
+
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+
+        });
+        btCloseParen = findViewById(R.id.closingBT);
+        btOpenParen = findViewById(R.id.openingBT);
+        editText = findViewById(R.id.editTextDisplay);
+        display = findViewById(R.id.resultDisplay);
+        bt0 = findViewById(R.id.btZ);
+        bt1 = findViewById(R.id.bt1);
+        bt2 = findViewById(R.id.bt2);
+        bt3 = findViewById(R.id.bt3);
+        bt4 = findViewById(R.id.bt4);
+        bt5 = findViewById(R.id.bt5);
+        bt6 = findViewById(R.id.bt6);
+        bt7 = findViewById(R.id.bt7);
+        bt8 = findViewById(R.id.bt8);
+        bt9 = findViewById(R.id.bt9);
+        btClear = findViewById(R.id.btC);
+        btPercent = findViewById(R.id.btPer);
+        btDelete=findViewById(R.id.btdel);
+        Addbt = findViewById(R.id.Addbt);
+        subtractionbt = findViewById(R.id.subtractionbt);
+        Multiplybt = findViewById(R.id.Multiplybt);
+        dividebt = findViewById(R.id.dividebt);
+        btE = findViewById(R.id.btE);
+        btDecimal = findViewById(R.id.btDecimal);
+        sinbt=findViewById(R.id.sinbt);
+        cosbt=findViewById(R.id.cosbt);
+        tanbt=findViewById(R.id.tanbt);
+        sinhbt=findViewById(R.id.sinhbt);
+        coshbt=findViewById(R.id.coshbt);
+        tanhbt=findViewById(R.id.tanhbt);
+        factbt=findViewById(R.id.facbt);
+        radbt=findViewById(R.id.Radbt);
+        randbt=findViewById(R.id.Randt);
+        pibt=findViewById(R.id.pibt);
+        eebt=findViewById(R.id.EEbt);
+        ebt=findViewById(R.id.ebt);
+        mcbt = findViewById(R.id.mcbt);
+        mrbt = findViewById(R.id.mrbt);
+        mpbt = findViewById(R.id.mpbt);
+        mmbt = findViewById(R.id.mmbt);
+        secondbt = findViewById(R.id.secondbt);
+        x2bt = findViewById(R.id.xtwobt);
+        x3bt = findViewById(R.id.xthreebt);
+        xYbt = findViewById(R.id.xybt);
+        log10bt = findViewById(R.id.log10bt);
+        exbt = findViewById(R.id.exbt);
+        tenXbt = findViewById(R.id.Tenxbt);
+        lnbt=findViewById(R.id.IN);
+        recipbt=findViewById(R.id.onedividedbyxbt);
+        sqrt2bt=findViewById(R.id.radicalttwobt);
+        sqrt3bt=findViewById(R.id.radicalhreebt);
+        ysqrtbt=findViewById(R.id.yradicalbt);
+        btCloseParen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append(")");
+                editText.setText(input.toString());
+            }
+        });
+        btOpenParen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("(");
+                editText.setText(input.toString());
+            }
+        });
+
+        lnbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    double num = Double.parseDouble(input.toString());
+                    double ans;
+                    if(isSecond){
+                        ans = Math.log(num) / Math.log(2);
+                    } else {
+                        ans = Math.log(num);
+                    }
+                    if(ans == (int) ans) display.setText(String.valueOf((int) ans));
+                    else display.setText(String.valueOf(ans));
+                    input.setLength(0);
+                }
+            }
+        });
+
+
+        recipbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    double num = Double.parseDouble(input.toString());
+                    double ans = 1 / num;
+                    if(ans == (int) ans) display.setText(String.valueOf((int) ans));
+                    else display.setText(String.valueOf(ans));
+                    input.setLength(0);
+                }
+            }
+        });
+        sqrt2bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    double num = Double.parseDouble(input.toString());
+                    double ans = isSecond ? Math.pow(num, 2) : Math.sqrt(num);
+                    if(ans == (int) ans) display.setText(String.valueOf((int) ans));
+                    else display.setText(String.valueOf(ans));
+                    input.setLength(0);
+                }
+            }
+        });
+
+
+        sqrt3bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    double num = Double.parseDouble(input.toString());
+                    double ans = isSecond ? Math.pow(num, 3) : Math.cbrt(num);
+                    if(ans == (int) ans) display.setText(String.valueOf((int) ans));
+                    else display.setText(String.valueOf(ans));
+                    input.setLength(0);
+                }
+            }
+        });
+
+
+        ysqrtbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    num1 = Double.parseDouble(input.toString());
+                    input.setLength(0);
+                    editText.setText("");
+                    isPower = !isSecond;
+                }
+            }
+        });
+        log10bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0) {
+                    double num = Double.parseDouble(input.toString());
+                    double ans = isSecond ? Math.log(num) : Math.log10(num);
+                    if (ans == (int) ans)
+                        display.setText(String.valueOf((int) ans));
+                    else
+                        display.setText(String.valueOf(ans));
+                }
+            }
+        });
+        exbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.length() > 0) {
+                    double num = Double.parseDouble(input.toString());
+                    double ans =Math.exp(num);
+                    if (ans == (int) ans) display.setText(String.valueOf((int) ans));
+                    else display.setText(String.valueOf(ans));
+                    input.setLength(0);
+                }
+            }
+        });
+        tenXbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    double num = Double.parseDouble(input.toString());
+                    display.setText(String.valueOf(Math.pow(10, num)));
+                    input.setLength(0);
+                }
+            }
+        });
+        x2bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    double num = Double.parseDouble(input.toString());
+                    double ans = isSecond ? Math.sqrt(num) : Math.pow(num, 2);
+                    if (ans == (int) ans) display.setText(String.valueOf((int) ans));
+                    else display.setText(String.valueOf(ans));
+                    input.setLength(0);
+                }
+            }
+        });
+        x3bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    double num = Double.parseDouble(input.toString());
+                    double ans = isSecond ? Math.cbrt(num) : Math.pow(num, 3);
+                    if (ans == (int) ans) display.setText(String.valueOf((int) ans));
+                    else display.setText(String.valueOf(ans));
+                    input.setLength(0);
+                }
+            }
+        });
+        xYbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0){
+                    num1 = Double.parseDouble(input.toString());
+                    isAddition = isSubtraction = isMultiplication = isDivision = false;
+                    input.setLength(0);
+                    editText.setText("");
+                    isPower = true;
+                }
+            }
+        });
+        secondbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isSecond = !isSecond;
+                if(isSecond){
+                    x2bt.setText("√x");
+                    x3bt.setText("∛x");
+                    log10bt.setText("ln");
+                    exbt.setText("e^x");
+                } else {
+                    x2bt.setText("x²");
+                    x3bt.setText("x³");
+                    log10bt.setText("log₁₀");
+                    exbt.setText("e^x");
+                }
+            }
+        });
+        mcbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                memory=0;
+            }
+        });
+        mmbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0) memory -= Double.parseDouble(input.toString());
+            }
+        });
+        mpbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.length() > 0) memory += Double.parseDouble(input.toString());
+            }
+        });
+        mrbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.setLength(0);
+                input.append(memory);
+                editText.setText(input.toString());
+            }
+        });
+
+        factbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("fact ");
+                editText.setText(input.toString());
+            }
+        });
+        eebt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("E");
+                editText.setText(input.toString());
+            }
+        });
+        ebt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append(Math.E);
+                editText.setText(input.toString());
+            }
+        });
+        pibt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append(Math.PI);
+                editText.setText(input.toString());
+            }
+        });
+        radbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isRadians = !isRadians;
+                radbt.setText(isRadians ? "Rad" : "Deg");
+            }
+        });
+        randbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double randValue = Math.random();
+                input.setLength(0);
+                input.append(randValue);
+                editText.setText(input.toString());
+
+            }
+        });
+        bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("1");
+                editText.setText(input.toString());
+            }
+        });
+        bt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("2");
+                editText.setText(input.toString());
+            }
+        });
+        bt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("3");
+                editText.setText(input.toString());
+            }
+        });
+        bt4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("4");
+                editText.setText(input.toString());
+            }
+        });
+        bt5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("5");
+                editText.setText(input.toString());
+            }
+        });
+        bt6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("6");
+                editText.setText(input.toString());
+            }
+        });
+        bt7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("7");
+                editText.setText(input.toString());
+            }
+        });
+        bt8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("8");
+                editText.setText(input.toString());
+            }
+
+        });
+        bt9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("9");
+                editText.setText(input.toString());
+            }
+        });
+        bt0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("0");
+                editText.setText(input.toString());
+            }
+        });
+        sinbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("sin ");
+                editText.setText(input.toString());
+            }
+        });
+        cosbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("cos ");
+                editText.setText(input.toString());
+            }
+        });
+        tanbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("tan ");
+                editText.setText(input.toString());
+            }
+        });
+        sinhbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("sinh ");
+                editText.setText(input.toString());
+            }
+        });
+        coshbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("cosh ");
+                editText.setText(input.toString());
+            }
+        });
+        tanhbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.append("tanh ");
+                editText.setText(input.toString());
+            }
+        });
+        btDecimal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!input.toString().contains(".")) {
+                    input.append(".");
+                    editText.setText(input.toString());
+                }
+            }
+        });
+        btClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.setLength(0);
+                num1 = 0;
+                num2 = 0;
+                isAddition = false;
+                isSubtraction = false;
+                isMultiplication = false;
+                isDivision = false;
+                editText.setText("");
+                display.setText("");
+            }
+        });
+        btPercent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if(input.length() > 0)
+                {
+                    double value = Double.parseDouble(input.toString());
+                    value = value / 100;
+                    input.setLength(0);
+                    input.append(value);
+                    editText.setText(input.toString());
+                }
+            }
+        });
+        btDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.length() > 0) {
+                    input.deleteCharAt(input.length() - 1); // Remove last character
+                    editText.setText(input.toString());
+                }
+            }
+        });
+        Addbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.length() > 0) {
+                    String value = input.toString();
+                    num1 = Double.parseDouble(value);
+                    isAddition = true;
+                    input.setLength(0);
+                    editText.setText("");
+                }
+            }
+        });
+        subtractionbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.length() > 0) {
+                    String value = input.toString();
+                    num1 = Double.parseDouble(value);
+                    isAddition = false;
+                    isSubtraction = true;
+                    input.setLength(0);
+                    editText.setText("");
+                }
+            }
+        });
+        Multiplybt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.length() > 0) {
+                    String value = input.toString();
+                    num1 = Double.parseDouble(value);
+                    isAddition = false;
+                    isSubtraction = false;
+                    isMultiplication = true;
+                    input.setLength(0);
+                    editText.setText("");
+                }
+            }
+        });
+        dividebt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.length() > 0) {
+                    String value = input.toString();
+                    num1 = Double.parseDouble(value);
+                    isAddition = false;
+                    isSubtraction = false;
+                    isMultiplication=false;
+                    isDivision = true;
+                    input.setLength(0);
+                    editText.setText("");
+                }
+            }});
+        btE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.length() > 0) {
+                    String text = input.toString().trim();
+                    double ans = 0.0;
+
+                    try {
+                        if (isPower) {
+                            double y = Double.parseDouble(text);
+                            double ans2;
+                            if (isSecond) {
+                                ans2= Math.pow(num1, y);
+                            } else {
+                                ans2 = Math.pow(num1, 1.0 / y);
+                            }
+                            isPower = false;
+                        }
+
+
+                       else  if (text.startsWith("fact ")) {
+                            int n = Integer.parseInt(text.substring(5));
+                            ans = 1;
+                            for (int i = 1; i <= n; i++) ans *= i;
+
+                            // Trigonometric functions
+                        } else if (text.startsWith("sin ")) {
+                            double num = Double.parseDouble(text.substring(4));
+                            ans = isRadians ? Math.sin(num) : Math.sin(Math.toRadians(num));
+                        } else if (text.startsWith("cos ")) {
+                            double num = Double.parseDouble(text.substring(4));
+                            ans = isRadians ? Math.cos(num) : Math.cos(Math.toRadians(num));
+                        } else if (text.startsWith("tan ")) {
+                            double num = Double.parseDouble(text.substring(4));
+                            ans = isRadians ? Math.tan(num) : Math.tan(Math.toRadians(num));
+
+                            // Hyperbolic functions
+                        } else if (text.startsWith("sinh ")) {
+                            double num = Double.parseDouble(text.substring(5));
+                            ans = Math.sinh(num);
+                        } else if (text.startsWith("cosh ")) {
+                            double num = Double.parseDouble(text.substring(5));
+                            ans = Math.cosh(num);
+                        } else if (text.startsWith("tanh ")) {
+                            double num = Double.parseDouble(text.substring(5));
+                            ans = Math.tanh(num);
+
+                            // Arithmetic
+                        } else {
+                            double num2 = Double.parseDouble(text);
+                            if (isAddition) ans = num1 + num2;
+                            else if (isSubtraction) ans = num1 - num2;
+                            else if (isMultiplication) ans = num1 * num2;
+                            else if (isDivision) ans = num1 / num2;
+                        }
+
+                        // Display as int if whole number
+                        if (ans == (int) ans) display.setText(String.valueOf((int) ans));
+                        else display.setText(String.valueOf(ans));
+
+                    } catch (Exception e) {
+                        display.setText("Error");
+                    }
+
+                    input.setLength(0);
+                    isAddition = isSubtraction = isMultiplication = isDivision = false;
+                }
+            }
+            });
+        }
+}
